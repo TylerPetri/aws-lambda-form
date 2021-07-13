@@ -6,6 +6,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import { Grid } from '@material-ui/core';
 
 import Form from '../Form/form';
 import List from '../List/list';
@@ -22,7 +24,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={2}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -58,6 +60,10 @@ export default function SimpleTabs() {
     setValue(newValue);
   };
 
+  const listUsers = () => {
+    setValue(1);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position='static' style={{ width: 'max-content' }}>
@@ -76,6 +82,17 @@ export default function SimpleTabs() {
       </AppBar>
       <TabPanel value={value} index={0}>
         <Form />
+        <Grid
+          container
+          direction='row'
+          justifyContent='space-between'
+          style={{ width: '400px', margin: '0 auto' }}
+        >
+          <Button variant='contained' color='primary' onClick={listUsers}>
+            SAVE
+          </Button>
+          <Button color='secondary'>DELETE</Button>
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <List />
