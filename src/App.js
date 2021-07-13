@@ -1,9 +1,17 @@
+import { Grid } from '@material-ui/core';
 import Tabs from './Components/Tabs/tabs';
 
 function App() {
   return (
     <>
-      <Tabs />
+      <Grid
+        container
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <Tabs />
+      </Grid>
     </>
   );
 }

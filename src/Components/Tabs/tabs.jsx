@@ -60,14 +60,18 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label='simple tabs example'
-        >
-          <Tab label='CREATE USER' {...a11yProps(0)} />
-          <Tab label='LIST USERS' {...a11yProps(1)} />
+      <AppBar position='static' style={{ width: 'max-content' }}>
+        <Tabs value={value} onChange={handleChange}>
+          <Tab
+            label='CREATE USER'
+            {...a11yProps(0)}
+            style={{ width: '400px', maxWidth: '400px' }}
+          />
+          <Tab
+            label='LIST USERS'
+            {...a11yProps(1)}
+            style={{ width: '400px', maxWidth: '400px' }}
+          />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
