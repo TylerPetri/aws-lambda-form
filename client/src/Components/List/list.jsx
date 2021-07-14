@@ -43,13 +43,9 @@ export default function AlignItemsList(props) {
     fetchData();
   }, [users]);
 
-  function edit() {
-    props.setValue(0);
-  }
-
-  async function deleteUser(name, createdAt) {
+  async function deleteUser(createdAt, id) {
     const deletion = async () => {
-      const res = await fetch(`/api/users/${createdAt}/${name}`, {
+      const res = await fetch(`/api/users/${createdAt}/${id}`, {
         method: 'DELETE',
       });
     };
@@ -97,15 +93,11 @@ export default function AlignItemsList(props) {
               <Divider variant='inset' component='li' />
             </List>
             <div>
-              <Link
-                to={`/edit/${user.Users}`}
-                style={{ textDecoration: 'none' }}
-              >
+              <Link to={`/edit/${user.id}`} style={{ textDecoration: 'none' }}>
                 <Button
                   variant='outlined'
                   color='primary'
                   style={{ marginLeft: '10px' }}
-                  onClick={() => edit}
                 >
                   EDIT
                 </Button>
@@ -114,7 +106,7 @@ export default function AlignItemsList(props) {
                 variant='outlined'
                 color='secondary'
                 style={{ marginLeft: '10px' }}
-                onClick={() => deleteUser(user.Users, user.createdAt)}
+                onClick={() => deleteUser(user.createdAt, user.id)}
               >
                 DELETE
               </Button>

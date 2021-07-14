@@ -7,13 +7,13 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
 const params = {
-  TableName: 'Users',
+  TableName: 'UserDB',
   KeySchema: [
-    { AttributeName: 'Users', KeyType: 'HASH' },
+    { AttributeName: 'id', KeyType: 'HASH' },
     { AttributeName: 'createdAt', KeyType: 'RANGE' },
   ],
   AttributeDefinitions: [
-    { AttributeName: 'Users', AttributeType: 'S' },
+    { AttributeName: 'id', AttributeType: 'S' },
     { AttributeName: 'createdAt', AttributeType: 'N' },
   ],
   ProvisionedThroughput: {

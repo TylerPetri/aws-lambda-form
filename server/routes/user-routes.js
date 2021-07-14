@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { v4: uuidv4 } = require('uuid');
 const AWS = require('aws-sdk');
 const awsConfig = {
   region: 'us-east-2',
@@ -7,7 +8,7 @@ const awsConfig = {
 };
 AWS.config.update(awsConfig);
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const table = 'Users';
+const table = 'UserDB';
 
 router.get('/users', (req, res) => {
   const params = {
@@ -22,12 +23,13 @@ router.get('/users', (req, res) => {
   });
 });
 
-router.get('/users/:createdAt', (req, res) => {
+router.get('/users/:id', (req, res) => {
   const params = {
     TableName: table,
-    ProjectionExpression: '#ca, #un, #em, #ph, #ad',
-    KeyConditionExpression: '#un = :user',
+    ProjectionExpression: '#ca, #un, #em, #ph, #ad, #id',
+    KeyConditionExpression: '#id = :id',
     ExpressionAttributeNames: {
+      '#id': 'id',
       '#un': 'Users',
       '#ca': 'createdAt',
       '#em': 'email',
@@ -35,7 +37,8 @@ router.get('/users/:createdAt', (req, res) => {
       '#ad': 'address',
     },
     ExpressionAttributeValues: {
-      ':user': req.params.createdAt,
+      // ':user': req.params.createdAt,
+      ':id': req.params.id,
     },
     ScanIndexForward: false,
   };
@@ -54,6 +57,7 @@ router.post('/users', (req, res) => {
   const params = {
     TableName: table,
     Item: {
+      id: uuidv4(),
       Users: req.body.name,
       createdAt: Date.now(),
       email: req.body.email,
@@ -75,11 +79,11 @@ router.post('/users', (req, res) => {
   });
 });
 
-router.post('/users/:createdAt/:name', (req, res) => {
+router.post('/users/:createdAt/:id', (req, res) => {
   const params = {
     TableName: table,
     Key: {
-      Users: req.params.name,
+      id: req.params.id,
       createdAt: parseFloat(req.params.createdAt),
     },
     UpdateExpression: 'set email = :email, phone = :phone, address = :address',
@@ -101,12 +105,11 @@ router.post('/users/:createdAt/:name', (req, res) => {
   });
 });
 
-router.delete('/users/:createdAt/:name', (req, res) => {
-  console.log(req.params.name, req.params.createdAt);
+router.delete('/users/:createdAt/:id', (req, res) => {
   const params = {
     TableName: table,
     Key: {
-      Users: req.params.name,
+      id: req.params.id,
       createdAt: parseFloat(req.params.createdAt),
     },
   };

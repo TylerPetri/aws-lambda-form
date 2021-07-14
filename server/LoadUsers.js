@@ -1,5 +1,7 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+
 AWS.config.update({
   region: 'us-east-2',
   endpoint: 'http://localhost:8000',
@@ -9,8 +11,9 @@ console.log('Importing Users into DynamoDB. Please wait.');
 const allUsers = JSON.parse(fs.readFileSync('./seed.json', 'utf8'));
 allUsers.forEach((user) => {
   const params = {
-    TableName: 'Users',
+    TableName: 'UserDB',
     Item: {
+      id: uuidv4(),
       Users: user.Users,
       createdAt: user.createdAt,
       email: user.email,
