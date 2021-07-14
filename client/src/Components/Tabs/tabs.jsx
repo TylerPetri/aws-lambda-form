@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,9 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
-import Form from '../Form/form';
-import List from '../List/list';
+import { useEffect } from 'react';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,13 +35,6 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -53,7 +44,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleTabs() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState();
+  const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/') setValue(0);
+    if (location.pathname === '/list') setValue(1);
+    if (location.pathname.includes('/edit/')) setValue(0);
+  }, [location]);
+
+  function toPage(page) {
+    history.push(page);
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,25 +65,21 @@ export default function SimpleTabs() {
   return (
     <div className={classes.root}>
       <AppBar position='static' style={{ width: 'max-content' }}>
-        <Tabs value={value} onChange={handleChange}>
+        <Tabs value={value} onChange={() => handleChange}>
           <Tab
             label='CREATE USER'
-            {...a11yProps(0)}
+            onClick={() => toPage('/')}
             style={{ width: '400px', maxWidth: '400px' }}
+            className='navTab'
           />
           <Tab
             label='LIST USERS'
-            {...a11yProps(1)}
+            onClick={() => toPage('/list')}
             style={{ width: '400px', maxWidth: '400px' }}
+            className='navTab'
           />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <Form value={value} setValue={setValue} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <List value={value} setValue={setValue} />
-      </TabPanel>
     </div>
   );
 }

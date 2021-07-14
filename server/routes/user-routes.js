@@ -76,11 +76,18 @@ router.post('/users', (req, res) => {
 });
 
 router.post('/users/:createdAt/:name', (req, res) => {
+  console.log(req.body);
   const params = {
     TableName: table,
     Key: {
       Users: req.params.name,
       createdAt: parseFloat(req.params.createdAt),
+    },
+    UpdateExpression: 'set email = :email, phone = :phone, address = :address',
+    ExpressionAttributeValues: {
+      ':email': req.body.email,
+      ':phone': req.body.phone,
+      ':address': req.body.address,
     },
   };
   dynamodb.update(params, (err, data) => {

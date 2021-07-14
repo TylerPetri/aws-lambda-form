@@ -2,9 +2,8 @@
 
 To-do:
 
-- Change edit from username to createdAt
-- Reset pathname when change tabs after editing
-- Delete user from create user tab
+- err handling (if empty, no email. If '/', delete button clears)
+- Change edit to createdAt?
 - Address map
 
 - Hosting

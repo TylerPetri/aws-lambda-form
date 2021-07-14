@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
 import TextField from '@material-ui/core/TextField';
 
-function Form(props) {
+function Form() {
   const { createdAt: userParam } = useParams();
   const [editing, setEditing] = useState(false);
   const [formState, setFormState] = useState({
@@ -14,11 +14,10 @@ function Form(props) {
     email: '',
     phone: '',
     address: '',
+    createdAt: 0,
   });
-  const [shrink1, setShrink1] = useState(false);
-  const [shrink2, setShrink2] = useState(false);
-  const [shrink3, setShrink3] = useState(false);
-  const [shrink4, setShrink4] = useState(false);
+
+  const history = useHistory();
 
   useEffect(() => {
     if (userParam) {
@@ -31,6 +30,7 @@ function Form(props) {
             email: data[0].email,
             phone: data[0].phone,
             address: data[0].address,
+            createdAt: data[0].createdAt,
           });
         } catch (error) {
           console.log(error);
@@ -39,10 +39,9 @@ function Form(props) {
       fetchData();
       setEditing(true);
     }
-    // if (formState.name.length > 0) setShrink1(true);
   }, [userParam]);
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     const postData = async () => {
@@ -57,13 +56,45 @@ function Form(props) {
     };
     postData();
 
-    setFormState({ name: '', email: '', phone: '', address: '' });
-    props.setValue(1);
+    setFormState({ name: '', email: '', phone: '', address: '', createdAt: 0 });
+    history.push('/list');
   };
 
-  const updateUser = async (createdAt, name) => {
-    // const res = await fetch(`/api/users/${createdAt}/${name}`);
-    console.log('updating');
+  const updateUser = async (event) => {
+    event.preventDefault();
+
+    const postData = async () => {
+      const res = await fetch(
+        `/api/users/${formState.createdAt}/${userParam}`,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formState),
+        }
+      );
+    };
+    postData();
+
+    setFormState({ name: '', email: '', phone: '', address: '', createdAt: 0 });
+    history.push('/list');
+  };
+
+  const deleteUser = async (event) => {
+    event.preventDefault();
+
+    const deletion = async () => {
+      const res = await fetch(
+        `/api/users/${formState.createdAt}/${userParam}`,
+        {
+          method: 'DELETE',
+        }
+      );
+    };
+    await deletion();
+    history.push('/list');
   };
 
   return (
@@ -86,8 +117,6 @@ function Form(props) {
             onChange={(event) =>
               setFormState({ ...formState, name: event.target.value })
             }
-            onSelect={() => setShrink1(true)}
-            // InputLabelProps={{ shrink: shrink1 }}
           />
           <TextField
             fullWidth
@@ -98,8 +127,6 @@ function Form(props) {
             onChange={(event) =>
               setFormState({ ...formState, email: event.target.value })
             }
-            onSelect={() => setShrink2(true)}
-            // InputLabelProps={{ shrink: shrink2 }}
           />
           <TextField
             fullWidth
@@ -110,8 +137,6 @@ function Form(props) {
             onChange={(event) =>
               setFormState({ ...formState, phone: event.target.value })
             }
-            onSelect={() => setShrink3(true)}
-            // InputLabelProps={{ shrink: shrink3 }}
           />
           <TextField
             fullWidth
@@ -122,8 +147,6 @@ function Form(props) {
             onChange={(event) =>
               setFormState({ ...formState, address: event.target.value })
             }
-            onSelect={() => setShrink4(true)}
-            // InputLabelProps={{ shrink: shrink4 }}
           />
         </Grid>
         <Grid
@@ -146,9 +169,9 @@ function Form(props) {
             </Button>
           )}
 
-          <Link to='/' style={{ textDecoration: 'none' }}>
-            <Button color='secondary'>DELETE</Button>
-          </Link>
+          <Button color='secondary' onClick={deleteUser}>
+            DELETE
+          </Button>
         </Grid>
       </Container>
     </>

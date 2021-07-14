@@ -2,6 +2,8 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Tabs from './Components/Tabs/tabs';
+import Form from './Components/Form/form';
+import List from './Components/List/list';
 
 function App() {
   return (
@@ -13,8 +15,10 @@ function App() {
           justifyContent='center'
           alignItems='center'
         >
-          <Route exact path='/' component={Tabs} />
-          <Route exact path='/edit/:createdAt' component={Tabs} />
+          <Tabs />
+          <Route exact path='/' component={Form} />
+          <Route path='/list' component={List} />
+          <Route path='/edit/:createdAt' component={Form} />
         </Grid>
       </Router>
     </>

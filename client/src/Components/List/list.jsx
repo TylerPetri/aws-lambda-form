@@ -41,7 +41,7 @@ export default function AlignItemsList(props) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [users]);
 
   function edit() {
     props.setValue(0);
@@ -63,6 +63,7 @@ export default function AlignItemsList(props) {
       direction='column'
       justifyContent='space-around'
       alignItems='center'
+      style={{ maxWidth: '800px' }}
     >
       {users.map((user) => (
         <>
