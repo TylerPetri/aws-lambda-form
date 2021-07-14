@@ -76,7 +76,6 @@ router.post('/users', (req, res) => {
 });
 
 router.post('/users/:createdAt/:name', (req, res) => {
-  console.log(req.body);
   const params = {
     TableName: table,
     Key: {
