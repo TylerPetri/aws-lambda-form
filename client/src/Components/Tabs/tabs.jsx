@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -6,8 +7,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import { Grid } from '@material-ui/core';
 
 import Form from '../Form/form';
 import List from '../List/list';
@@ -60,10 +59,6 @@ export default function SimpleTabs() {
     setValue(newValue);
   };
 
-  const listUsers = () => {
-    setValue(1);
-  };
-
   return (
     <div className={classes.root}>
       <AppBar position='static' style={{ width: 'max-content' }}>
@@ -81,21 +76,10 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Form />
-        <Grid
-          container
-          direction='row'
-          justifyContent='space-between'
-          style={{ width: '400px', margin: '0 auto' }}
-        >
-          <Button variant='contained' color='primary' onClick={listUsers}>
-            SAVE
-          </Button>
-          <Button color='secondary'>DELETE</Button>
-        </Grid>
+        <Form value={value} setValue={setValue} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <List />
+        <List value={value} setValue={setValue} />
       </TabPanel>
     </div>
   );
