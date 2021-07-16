@@ -27,11 +27,12 @@ export default function AlignItemsList(props) {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/users');
-      const jsonData = await res.json();
-      const data = jsonData.sort((a, b) =>
-        a.createdAt < b.createdAt ? 1 : -1
+      const res = await fetch(
+        'https://pq663ohhse.execute-api.us-east-2.amazonaws.com/1st_deployment/users'
       );
+      const jsonData = await res.json();
+      const items = jsonData.Items;
+      const data = items.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
       setUsers([...data]);
       setIsLoaded(true);
     } catch (error) {
@@ -41,7 +42,7 @@ export default function AlignItemsList(props) {
 
   useEffect(() => {
     fetchData();
-  }, [users]);
+  }, []);
 
   async function deleteUser(createdAt, id) {
     const deletion = async () => {

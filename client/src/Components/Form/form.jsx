@@ -57,14 +57,17 @@ function Form() {
       formState.address
     ) {
       const postData = async () => {
-        const res = await fetch('/api/users', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formState),
-        });
+        const res = await fetch(
+          'https://pq663ohhse.execute-api.us-east-2.amazonaws.com/1st_deployment/users',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formState),
+          }
+        );
       };
       postData();
 
