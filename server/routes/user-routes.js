@@ -36,7 +36,6 @@ router.get('/users/:id', (req, res) => {
       '#ad': 'address',
     },
     ExpressionAttributeValues: {
-      // ':user': req.params.createdAt,
       ':id': req.params.id,
     },
     ScanIndexForward: false,
