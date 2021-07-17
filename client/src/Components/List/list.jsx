@@ -28,7 +28,7 @@ export default function AlignItemsList(props) {
   const fetchData = async () => {
     try {
       const res = await fetch(
-        'https://pq663ohhse.execute-api.us-east-2.amazonaws.com/1st_deployment/users'
+        'https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users'
       );
       const jsonData = await res.json();
       const items = jsonData.Items;

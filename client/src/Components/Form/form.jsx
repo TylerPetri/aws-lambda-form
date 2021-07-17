@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 function Form() {
-  const { createdAt: userParam } = useParams();
+  const { id: userParam } = useParams();
   const [editing, setEditing] = useState(false);
   const [formState, setFormState] = useState({
     id: 0,
@@ -28,15 +28,17 @@ function Form() {
     if (userParam) {
       const fetchData = async () => {
         try {
-          const res = await fetch(`/api/users/${userParam}`);
+          const res = await fetch(
+            `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users/?id=${userParam}`
+          );
           const data = await res.json();
           setFormState({
-            id: data[0].id,
-            name: data[0].Users,
-            email: data[0].email,
-            phone: data[0].phone,
-            address: data[0].address,
-            createdAt: data[0].createdAt,
+            id: data.Items[0].id,
+            name: data.Items[0].Users,
+            email: data.Items[0].email,
+            phone: data.Items[0].phone,
+            address: data.Items[0].address,
+            createdAt: data.Items[0].createdAt,
           });
         } catch (error) {
           console.log(error);
@@ -57,17 +59,14 @@ function Form() {
       formState.address
     ) {
       const postData = async () => {
-        const res = await fetch(
-          'https://pq663ohhse.execute-api.us-east-2.amazonaws.com/1st_deployment/users',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formState),
-          }
-        );
+        const res = await fetch('/api/users', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formState),
+        });
       };
       postData();
 

@@ -18,7 +18,7 @@ function App() {
           <Tabs />
           <Route exact path='/' component={Form} />
           <Route path='/list' component={List} />
-          <Route path='/edit/:createdAt' component={Form} />
+          <Route path='/edit/:id' component={Form} />
         </Grid>
       </Router>
     </>
