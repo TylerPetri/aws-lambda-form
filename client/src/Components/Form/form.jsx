@@ -3,6 +3,7 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import { uuid } from 'uuidv4';
 
 import TextField from '@material-ui/core/TextField';
 
@@ -59,26 +60,30 @@ function Form() {
       formState.address
     ) {
       const postData = async () => {
-        const res = await fetch('/api/users', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formState),
-        });
+        formState.id = uuid();
+        await fetch(
+          'https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formState),
+          }
+        );
       };
       postData();
 
-      setFormState({
-        id: 0,
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        createdAt: 0,
-      });
-      history.push('/list');
+      // setFormState({
+      //   id: 0,
+      //   name: '',
+      //   email: '',
+      //   phone: '',
+      //   address: '',
+      //   createdAt: 0,
+      // });
+      // history.push('/list');
     } else {
       if (formState.name === '') {
         setReqName(true);
