@@ -131,15 +131,15 @@ function Form() {
       };
       postData();
 
-      // setFormState({
-      //   id: 0,
-      //   name: '',
-      //   email: '',
-      //   phone: '',
-      //   address: '',
-      //   createdAt: 0,
-      // });
-      // history.push('/list');
+      setFormState({
+        id: 0,
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        createdAt: 0,
+      });
+      history.push('/list');
     } else {
       if (formState.name === '') {
         setReqName(true);
@@ -168,8 +168,8 @@ function Form() {
     event.preventDefault();
 
     const deletion = async () => {
-      const res = await fetch(
-        `/api/users/${formState.createdAt}/${userParam}`,
+      await fetch(
+        `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users/?ca=${formState.createdAt}&id=${userParam}`,
         {
           method: 'DELETE',
         }
@@ -179,7 +179,7 @@ function Form() {
     history.push('/list');
   };
 
-  const clearForm = async (event) => {
+  const clearForm = async () => {
     setFormState({
       id: 0,
       name: '',

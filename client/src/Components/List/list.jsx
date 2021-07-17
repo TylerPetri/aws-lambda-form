@@ -46,9 +46,12 @@ export default function AlignItemsList(props) {
 
   async function deleteUser(createdAt, id) {
     const deletion = async () => {
-      const res = await fetch(`/api/users/${createdAt}/${id}`, {
-        method: 'DELETE',
-      });
+      await fetch(
+        `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users/?ca=${createdAt}&id=${id}`,
+        {
+          method: 'DELETE',
+        }
+      );
     };
     await deletion();
     fetchData();

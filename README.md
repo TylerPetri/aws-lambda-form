@@ -3,7 +3,6 @@
 To-do:
 
 - Lambda
-  update
   delete (both)
 
 - Address map
