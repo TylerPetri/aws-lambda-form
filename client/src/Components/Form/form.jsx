@@ -75,15 +75,15 @@ function Form() {
       };
       postData();
 
-      // setFormState({
-      //   id: 0,
-      //   name: '',
-      //   email: '',
-      //   phone: '',
-      //   address: '',
-      //   createdAt: 0,
-      // });
-      // history.push('/list');
+      setFormState({
+        id: 0,
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        createdAt: 0,
+      });
+      history.push('/list');
     } else {
       if (formState.name === '') {
         setReqName(true);
@@ -117,10 +117,10 @@ function Form() {
       formState.address
     ) {
       const postData = async () => {
-        const res = await fetch(
-          `/api/users/${formState.createdAt}/${userParam}`,
+        await fetch(
+          `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users`,
           {
-            method: 'POST',
+            method: 'PUT',
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
@@ -131,15 +131,15 @@ function Form() {
       };
       postData();
 
-      setFormState({
-        id: 0,
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        createdAt: 0,
-      });
-      history.push('/list');
+      // setFormState({
+      //   id: 0,
+      //   name: '',
+      //   email: '',
+      //   phone: '',
+      //   address: '',
+      //   createdAt: 0,
+      // });
+      // history.push('/list');
     } else {
       if (formState.name === '') {
         setReqName(true);
