@@ -314,7 +314,10 @@ function Form() {
             </Button>
           )}
         </Grid>
-        <div className='map' style={{ height: showMap ? 'max-content' : '0' }}>
+        <div
+          className={showMap ? 'map' : 'active'}
+          style={{ height: showMap ? '333px' : '0' }}
+        >
           <iframe
             style={{
               width: '500px',
