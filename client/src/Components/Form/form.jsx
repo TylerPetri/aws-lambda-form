@@ -8,6 +8,7 @@ import { uuid } from 'uuidv4';
 import TextField from '@material-ui/core/TextField';
 import env from '../../env.json';
 
+import spinner from '../../assets/spinner.gif';
 import './form.css';
 
 function Form() {
@@ -27,11 +28,13 @@ function Form() {
   const [reqAddress, setReqAddress] = useState(false);
   const [query, setQuery] = useState('Toronto, On');
   const [showMap, setShowMap] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const history = useHistory();
 
   useEffect(() => {
     if (userParam) {
+      setIsLoaded(true);
       const fetchData = async () => {
         try {
           const res = await fetch(
@@ -46,6 +49,7 @@ function Form() {
             address: data.Items[0].address,
             createdAt: data.Items[0].createdAt,
           });
+          setIsLoaded(false);
         } catch (error) {
           console.log(error);
         }
@@ -214,6 +218,18 @@ function Form() {
     <>
       {' '}
       <Container maxWidth='sm'>
+        {isLoaded ? (
+          <img
+            src={spinner}
+            style={{
+              position: 'absolute',
+              top: '10%',
+              left: '40%',
+            }}
+          />
+        ) : (
+          <></>
+        )}
         <Grid
           container
           direction='column'

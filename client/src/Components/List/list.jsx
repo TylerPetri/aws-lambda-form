@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
+import spinner from '../../assets/spinner.gif';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +43,9 @@ export default function AlignItemsList(props) {
   };
 
   useEffect(() => {
-    fetchData();
+    setTimeout(function () {
+      fetchData();
+    }, 555);
   }, []);
 
   async function deleteUser(createdAt, id) {
@@ -65,59 +69,69 @@ export default function AlignItemsList(props) {
       alignItems='center'
       style={{ maxWidth: '800px' }}
     >
-      {users.map((user) => (
-        <>
-          <Grid
-            container
-            direction='row'
-            justifyContent='space-between'
-            alignItems='center'
-            style={{ padding: '10px', width: '80%' }}
-          >
-            <List className={classes.root}>
-              <ListItem alignItems='flex-start'>
-                <ListItemText
-                  primary={user.Users}
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        component='span'
-                        variant='body2'
-                        className={classes.inline}
-                        color='textPrimary'
-                      >
-                        {user.email} - {user.phone}
-                      </Typography>
-                      <br></br>
-                      {user.address}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              <Divider variant='inset' component='li' />
-            </List>
-            <div>
-              <Link to={`/edit/${user.id}`} style={{ textDecoration: 'none' }}>
+      {!isLoaded ? (
+        <img
+          src={spinner}
+          style={{ margin: '50px', height: '77px', width: '77px' }}
+        />
+      ) : (
+        users.map((user) => (
+          <>
+            <Grid
+              container
+              direction='row'
+              justifyContent='space-between'
+              alignItems='center'
+              style={{ padding: '10px', width: '80%' }}
+            >
+              <List className={classes.root}>
+                <ListItem alignItems='flex-start'>
+                  <ListItemText
+                    primary={user.Users}
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          component='span'
+                          variant='body2'
+                          className={classes.inline}
+                          color='textPrimary'
+                        >
+                          {user.email} - {user.phone}
+                        </Typography>
+                        <br></br>
+                        {user.address}
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+                <Divider variant='inset' component='li' />
+              </List>
+              <div>
+                <Link
+                  to={`/edit/${user.id}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    style={{ marginLeft: '10px' }}
+                  >
+                    EDIT
+                  </Button>
+                </Link>
                 <Button
                   variant='outlined'
-                  color='primary'
+                  color='secondary'
                   style={{ marginLeft: '10px' }}
+                  onClick={() => deleteUser(user.createdAt, user.id)}
                 >
-                  EDIT
+                  DELETE
                 </Button>
-              </Link>
-              <Button
-                variant='outlined'
-                color='secondary'
-                style={{ marginLeft: '10px' }}
-                onClick={() => deleteUser(user.createdAt, user.id)}
-              >
-                DELETE
-              </Button>
-            </div>
-          </Grid>
-        </>
-      ))}
+              </div>
+            </Grid>
+          </>
+        ))
+      )}
     </Grid>
   );
 }

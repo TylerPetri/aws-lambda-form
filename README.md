@@ -6,5 +6,4 @@ Live link: http://alf-bp53.s3-website.us-east-2.amazonaws.com
 
 To-do:
 
-- Create user loading List Users real-time (no need reload)
-- Loading animation
+adjust settimeout
