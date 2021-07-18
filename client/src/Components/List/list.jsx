@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AlignItemsList(props) {
   const classes = useStyles();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [deleteLoad, setDelLoad] = useState(false);
   const [users, setUsers] = useState([]);
 
   const fetchData = async () => {
@@ -45,11 +46,12 @@ export default function AlignItemsList(props) {
   useEffect(() => {
     setTimeout(function () {
       fetchData();
-    }, 555);
+    }, 777);
   }, []);
 
   async function deleteUser(createdAt, id) {
     const deletion = async () => {
+      setDelLoad(true);
       await fetch(
         `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users/?ca=${createdAt}&id=${id}`,
         {
@@ -58,6 +60,7 @@ export default function AlignItemsList(props) {
       );
     };
     await deletion();
+    setDelLoad(false);
     fetchData();
   }
 
@@ -69,6 +72,21 @@ export default function AlignItemsList(props) {
       alignItems='center'
       style={{ maxWidth: '800px' }}
     >
+      {deleteLoad ? (
+        <img
+          src={spinner}
+          style={{
+            margin: '100px auto',
+            height: '77px',
+            width: '77px',
+            position: 'absolute',
+            top: '0',
+            zIndex: '10',
+          }}
+        />
+      ) : (
+        <></>
+      )}
       {!isLoaded ? (
         <img
           src={spinner}

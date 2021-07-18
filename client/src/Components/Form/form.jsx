@@ -29,6 +29,7 @@ function Form() {
   const [query, setQuery] = useState('Toronto, On');
   const [showMap, setShowMap] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [editLoad, setEditLoad] = useState(false);
 
   const history = useHistory();
 
@@ -177,6 +178,7 @@ function Form() {
     event.preventDefault();
 
     const deletion = async () => {
+      setEditLoad(true);
       await fetch(
         `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users/?ca=${formState.createdAt}&id=${userParam}`,
         {
@@ -185,6 +187,7 @@ function Form() {
       );
     };
     await deletion();
+    setEditLoad(false);
     history.push('/list');
   };
 
@@ -218,18 +221,6 @@ function Form() {
     <>
       {' '}
       <Container maxWidth='sm'>
-        {isLoaded ? (
-          <img
-            src={spinner}
-            style={{
-              position: 'absolute',
-              top: '10%',
-              left: '40%',
-            }}
-          />
-        ) : (
-          <></>
-        )}
         <Grid
           container
           direction='column'
@@ -237,6 +228,36 @@ function Form() {
           alignItems='center'
           style={{ height: '400px', width: '555px' }}
         >
+          {editLoad ? (
+            <img
+              src={spinner}
+              style={{
+                margin: '100px auto',
+                height: '77px',
+                width: '77px',
+                position: 'absolute',
+                top: '0',
+                zIndex: '10',
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {isLoaded ? (
+            <img
+              src={spinner}
+              style={{
+                margin: '100px auto',
+                height: '77px',
+                width: '77px',
+                position: 'absolute',
+                top: '0',
+                zIndex: '10',
+              }}
+            />
+          ) : (
+            <></>
+          )}
           {editing ? (
             <TextField
               fullWidth
