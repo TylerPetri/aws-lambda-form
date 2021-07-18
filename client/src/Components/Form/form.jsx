@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { useParams, useHistory } from 'react-router-dom';
+import { Grid, IconButton } from '@material-ui/core';
+import { Search as SearchIcon } from '@material-ui/icons';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { uuid } from 'uuidv4';
-
 import TextField from '@material-ui/core/TextField';
+import env from '../../env.json';
+
+import './form.css';
 
 function Form() {
   const { id: userParam } = useParams();
@@ -22,6 +25,8 @@ function Form() {
   const [reqEmail, setReqEmail] = useState(false);
   const [reqPhone, setReqPhone] = useState(false);
   const [reqAddress, setReqAddress] = useState(false);
+  const [query, setQuery] = useState('Toronto, On');
+  const [showMap, setShowMap] = useState(false);
 
   const history = useHistory();
 
@@ -190,6 +195,21 @@ function Form() {
     });
   };
 
+  function searchAddress() {
+    if (formState.address === query) {
+      !showMap ? setShowMap(true) : setShowMap(false);
+    }
+    if (formState.address.length > 1 && formState.address != query) {
+      setShowMap(true);
+      setQuery(formState.address.replace(/ /g, '+'));
+    }
+    if (formState.address === '') {
+      setReqAddress(true);
+    } else {
+      setReqAddress(false);
+    }
+  }
+
   return (
     <>
       {' '}
@@ -255,6 +275,13 @@ function Form() {
             onChange={(event) =>
               setFormState({ ...formState, address: event.target.value })
             }
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={searchAddress}>
+                  <SearchIcon />
+                </IconButton>
+              ),
+            }}
           />
         </Grid>
         <Grid
@@ -287,6 +314,25 @@ function Form() {
             </Button>
           )}
         </Grid>
+        <div className='map' style={{ height: showMap ? 'max-content' : '0' }}>
+          <iframe
+            style={{
+              width: '500px',
+              height: '333px',
+              border: '0',
+              borderRadius: '10px',
+              transition: '1s',
+              overflow: 'hidden',
+              opacity: showMap ? '1' : '0',
+              visibility: showMap ? 'visible' : 'hidden',
+              marginTop: showMap ? '0' : '50px',
+            }}
+            loading='lazy'
+            allowfullscreen
+            src={`https://www.google.com/maps/embed/v1/place?key=${env.API_KEY}
+                  &q=${query}`}
+          ></iframe>
+        </div>
       </Container>
     </>
   );
