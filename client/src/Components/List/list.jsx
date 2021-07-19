@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import spinner from '../../assets/spinner.gif';
+import { useStoreContext } from '../../utils/GlobalStore';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,7 @@ export default function AlignItemsList(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [deleteLoad, setDelLoad] = useState(false);
   const [users, setUsers] = useState([]);
+  const [{ loadDelay }, dispatch] = useStoreContext();
 
   const fetchData = async () => {
     try {
@@ -44,9 +46,14 @@ export default function AlignItemsList(props) {
   };
 
   useEffect(() => {
-    setTimeout(function () {
+    if (loadDelay) {
+      setTimeout(function () {
+        fetchData();
+        dispatch({ type: 'DELAY_OFF' });
+      }, 1000);
+    } else {
       fetchData();
-    }, 777);
+    }
   }, []);
 
   async function deleteUser(createdAt, id) {
@@ -87,6 +94,7 @@ export default function AlignItemsList(props) {
       ) : (
         <></>
       )}
+
       {!isLoaded ? (
         <img
           src={spinner}

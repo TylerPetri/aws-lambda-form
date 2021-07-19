@@ -10,6 +10,7 @@ import env from '../../env.json';
 
 import spinner from '../../assets/spinner.gif';
 import './form.css';
+import { useStoreContext } from '../../utils/GlobalStore';
 
 function Form() {
   const { id: userParam } = useParams();
@@ -30,6 +31,7 @@ function Form() {
   const [showMap, setShowMap] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [editLoad, setEditLoad] = useState(false);
+  const [_, dispatch] = useStoreContext();
 
   const history = useHistory();
 
@@ -93,6 +95,7 @@ function Form() {
         address: '',
         createdAt: 0,
       });
+      dispatch({ type: 'DELAY_ON' });
       history.push('/list');
     } else {
       if (formState.name === '') {
@@ -243,6 +246,7 @@ function Form() {
           ) : (
             <></>
           )}
+
           {isLoaded ? (
             <img
               src={spinner}
