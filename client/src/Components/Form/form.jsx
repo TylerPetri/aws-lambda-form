@@ -136,62 +136,6 @@ function Form() {
     }
   };
 
-  // const updateUser = async (event) => {
-  //   event.preventDefault();
-  //   if (
-  //     formState.name &&
-  //     formState.email &&
-  //     formState.phone &&
-  //     formState.address
-  //   ) {
-  //     const postData = async () => {
-  //       await fetch(
-  //         `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users`,
-  //         {
-  //           method: 'PUT',
-  //           headers: {
-  //             Accept: 'application/json',
-  //             'Content-Type': 'application/json',
-  //           },
-  //           body: JSON.stringify(formState),
-  //         }
-  //       );
-  //     };
-  //     postData();
-
-  //     setFormState({
-  //       id: 0,
-  //       name: '',
-  //       email: '',
-  //       phone: '',
-  //       address: '',
-  //       createdAt: 0,
-  //     });
-  //     history.push('/list');
-  //   } else {
-  //     if (formState.name === '') {
-  //       setReqName(true);
-  //     } else {
-  //       setReqName(false);
-  //     }
-  //     if (formState.email === '') {
-  //       setReqEmail(true);
-  //     } else {
-  //       setReqEmail(false);
-  //     }
-  //     if (formState.phone === '') {
-  //       setReqPhone(true);
-  //     } else {
-  //       setReqPhone(false);
-  //     }
-  //     if (formState.address === '') {
-  //       setReqAddress(true);
-  //     } else {
-  //       setReqAddress(false);
-  //     }
-  //   }
-  // };
-
   const deleteUser = async (event) => {
     event.preventDefault();
 
