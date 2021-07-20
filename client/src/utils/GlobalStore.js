@@ -10,6 +10,9 @@ const dataReducer = (state, action) => {
       return { ...state, loadDelay: true };
     case 'DELAY_OFF':
       return { ...state, loadDelay: false };
+    default:
+      console.log(`Invalid action type: ${action.type}`);
+      return state;
   }
 };
 

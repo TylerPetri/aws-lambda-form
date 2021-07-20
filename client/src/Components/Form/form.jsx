@@ -62,6 +62,35 @@ function Form() {
     }
   }, [userParam]);
 
+  const postData = async () => {
+    formState.id = uuid();
+    await fetch(
+      'https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      }
+    );
+  };
+
+  const updateData = async () => {
+    await fetch(
+      `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users`,
+      {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      }
+    );
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -71,21 +100,7 @@ function Form() {
       formState.phone &&
       formState.address
     ) {
-      const postData = async () => {
-        formState.id = uuid();
-        await fetch(
-          'https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formState),
-          }
-        );
-      };
-      postData();
+      editing ? updateData() : postData();
 
       setFormState({
         id: 0,
@@ -121,61 +136,61 @@ function Form() {
     }
   };
 
-  const updateUser = async (event) => {
-    event.preventDefault();
-    if (
-      formState.name &&
-      formState.email &&
-      formState.phone &&
-      formState.address
-    ) {
-      const postData = async () => {
-        await fetch(
-          `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users`,
-          {
-            method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formState),
-          }
-        );
-      };
-      postData();
+  // const updateUser = async (event) => {
+  //   event.preventDefault();
+  //   if (
+  //     formState.name &&
+  //     formState.email &&
+  //     formState.phone &&
+  //     formState.address
+  //   ) {
+  //     const postData = async () => {
+  //       await fetch(
+  //         `https://o06bkgr364.execute-api.us-east-2.amazonaws.com/api/users`,
+  //         {
+  //           method: 'PUT',
+  //           headers: {
+  //             Accept: 'application/json',
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify(formState),
+  //         }
+  //       );
+  //     };
+  //     postData();
 
-      setFormState({
-        id: 0,
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        createdAt: 0,
-      });
-      history.push('/list');
-    } else {
-      if (formState.name === '') {
-        setReqName(true);
-      } else {
-        setReqName(false);
-      }
-      if (formState.email === '') {
-        setReqEmail(true);
-      } else {
-        setReqEmail(false);
-      }
-      if (formState.phone === '') {
-        setReqPhone(true);
-      } else {
-        setReqPhone(false);
-      }
-      if (formState.address === '') {
-        setReqAddress(true);
-      } else {
-        setReqAddress(false);
-      }
-    }
-  };
+  //     setFormState({
+  //       id: 0,
+  //       name: '',
+  //       email: '',
+  //       phone: '',
+  //       address: '',
+  //       createdAt: 0,
+  //     });
+  //     history.push('/list');
+  //   } else {
+  //     if (formState.name === '') {
+  //       setReqName(true);
+  //     } else {
+  //       setReqName(false);
+  //     }
+  //     if (formState.email === '') {
+  //       setReqEmail(true);
+  //     } else {
+  //       setReqEmail(false);
+  //     }
+  //     if (formState.phone === '') {
+  //       setReqPhone(true);
+  //     } else {
+  //       setReqPhone(false);
+  //     }
+  //     if (formState.address === '') {
+  //       setReqAddress(true);
+  //     } else {
+  //       setReqAddress(false);
+  //     }
+  //   }
+  // };
 
   const deleteUser = async (event) => {
     event.preventDefault();
@@ -234,6 +249,7 @@ function Form() {
           {editLoad ? (
             <img
               src={spinner}
+              alt='loading-animation'
               style={{
                 margin: '100px auto',
                 height: '77px',
@@ -250,6 +266,7 @@ function Form() {
           {isLoaded ? (
             <img
               src={spinner}
+              alt='loading-animation'
               style={{
                 margin: '100px auto',
                 height: '77px',
@@ -331,19 +348,19 @@ function Form() {
           justifyContent='space-between'
           style={{ width: '400px', margin: '0 auto' }}
         >
-          {editing ? (
+          {/* {editing ? (
             <Button variant='contained' color='primary' onClick={updateUser}>
               SAVE
             </Button>
-          ) : (
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={handleFormSubmit}
-            >
-              SAVE
-            </Button>
-          )}
+          ) : ( */}
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={handleFormSubmit}
+          >
+            SAVE
+          </Button>
+          {/* )} */}
 
           {editing ? (
             <Button color='secondary' onClick={deleteUser}>

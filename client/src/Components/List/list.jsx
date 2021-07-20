@@ -82,6 +82,7 @@ export default function AlignItemsList(props) {
       {deleteLoad ? (
         <img
           src={spinner}
+          alt='loading-animation'
           style={{
             margin: '100px auto',
             height: '77px',
@@ -98,6 +99,7 @@ export default function AlignItemsList(props) {
       {!isLoaded ? (
         <img
           src={spinner}
+          alt='loading-animation'
           style={{ margin: '50px', height: '77px', width: '77px' }}
         />
       ) : (
