@@ -292,11 +292,6 @@ function Form() {
           justifyContent='space-between'
           style={{ width: '400px', margin: '0 auto' }}
         >
-          {/* {editing ? (
-            <Button variant='contained' color='primary' onClick={updateUser}>
-              SAVE
-            </Button>
-          ) : ( */}
           <Button
             variant='contained'
             color='primary'
@@ -304,8 +299,6 @@ function Form() {
           >
             SAVE
           </Button>
-          {/* )} */}
-
           {editing ? (
             <Button color='secondary' onClick={deleteUser}>
               DELETE
