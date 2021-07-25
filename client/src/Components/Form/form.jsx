@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { uuid } from 'uuidv4';
 import TextField from '@material-ui/core/TextField';
-import env from '../../env.json';
+// import env from '../../env.json';
 
 import spinner from '../../assets/spinner.gif';
 import './form.css';
@@ -327,7 +327,7 @@ function Form() {
             }}
             loading='lazy'
             allowfullscreen
-            src={`https://www.google.com/maps/embed/v1/place?key=${env.API_KEY}
+            src={`https://www.google.com/maps/embed/v1/place?key=${process.env.API_KEY}
                   &q=${query}`}
           ></iframe>
         </div>
