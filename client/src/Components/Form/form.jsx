@@ -57,7 +57,7 @@ function Form() {
           console.log(error);
         }
       };
-      // fetchData();
+      fetchData();
       setEditing(true);
     }
   }, []);
